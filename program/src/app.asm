@@ -16,7 +16,7 @@ main:
     dec     rdi             ; Decrement argc, because we don't care about first argument
     lea     rsi, [rsi + 8]  ; Skip first arg in argv
     call    some
-    
+
     xor     eax, eax
     leave
     ret

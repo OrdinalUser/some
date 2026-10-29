@@ -15,7 +15,6 @@
 ;   it will be truncated appropriately in the middle.
 ; - Handle files above 16-bit limit - 64kB
 ; - Implemented as an external procedure (compiled separately and linked to the resulting program)
-; - Proper english documentation
 ; ============== Mandatory / optional bonus points ==============
 ; Úlohy extra:
 ; 	1. 	+1, Po zadaní prepínača '-p' bude výstup stránkovaný, teda po zaplnení obrazovky sa počká na stlačenie klávesu.
@@ -25,7 +24,6 @@
 ;	5. 	+1, Pri stránkovaní sa vždy zobrazí aj absolútna cesta zobrazovaného (spracovávaného) vstupného súboru. Ak je dlhšia než riadok, bude v prostriedku vhodne skrátená.
 ;	7. 	+1, Ak budú korektne spracované vstupné súbory s veľkosťou nad 64kB
 ;   10. +2, Realizovaná ako externá procedúra (kompilovaná samostatne a prilinkovaná k výslednému programu)
-;	12. +1, Je možné získať za (dobré) komentáre, resp. dokumentáciu, v anglickom jazyku.
 ; ======================= Developer notes =======================
 ; - memory is bottomless => malloc, realloc never fails
 ; - improper padding if there are control characters or non printable ASCII in general
@@ -57,7 +55,7 @@ section .rodata
     fmt_string_terminal_size: db "Terminal: %d x %d", 10, 0
     debug_args_fmt: db "[Debug]: Arguments: -h %d | -p %d | filepath: %s", 10, 0
     string_paging: db "some paging", 10, 0
-    
+
     debug_ptr_4: db "%X %X %X %X", 10, 0
 
     fopen_format_read: db "r", 0
@@ -112,7 +110,7 @@ some:
     ; xor     eax, eax
     ; lea     rdi, debug_args_fmt
     ; movzx   rsi, BYTE [rbp-32]
-    ; movzx   rdx, BYTE [rbp-31] 
+    ; movzx   rdx, BYTE [rbp-31]
     ; lea     rcx, [g_filepath]
     ; call    printf
 
@@ -156,7 +154,7 @@ some:
     mov     rdi, [g_page_entries]
     call    free
 .end:
-    leave 
+    leave
     ret
 .file_open_error:
     mov     rdi, [stderr]                 ; printing to stderr
@@ -215,7 +213,7 @@ some_init:
     push    rbp
     mov     rbp, rsp
     sub     rsp, 16
-    mov     [rbp-8], rdi                ; save flag_paging 
+    mov     [rbp-8], rdi                ; save flag_paging
 
     ; Get terminal information
     xor     eax, eax
@@ -436,7 +434,7 @@ some_precompute_pages:
     call    digitcount
     add     eax, 2              ; assuming "%d: " format
     mov     [rbp-24], eax       ; holds temporary format_length
-    
+
     mov     rdi, [g_page_buffer]
     call    strlen
     mov     [rbp-32], eax       ; holds line_size
@@ -477,7 +475,7 @@ some_precompute_pages:
     sal     rax, 3
     mov     rbx, [g_page_entries]
     add     rbx, rax
-    
+
     mov     eax, [rbp-20]
     mov     [rbx+0], eax
     mov     eax, [rbp-12]
@@ -577,7 +575,7 @@ puts_ln:
     jz      .loop_end
     cmp     r12d, 10            ; compare to ASCII newline '\n'
     je      .loop_end
-.loop_body:    
+.loop_body:
     cmp     r12d, 9             ; compare to ASCII tab '\t'
     jne     .not_tab
     mov     edi, 32
@@ -838,7 +836,7 @@ some_simple:
     push    rbx
     sub     rsp, 8
     mov     rbx, 1 ; Holds line number
-    
+
 .loop:
     xor     rax, rax
     mov     rdi, [g_page_buffer]
